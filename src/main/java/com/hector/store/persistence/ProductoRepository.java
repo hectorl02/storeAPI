@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Repository
 public class ProductoRepository implements ProductRepository {
-
     @Autowired
     private ProductoCrudRepository productoCrudRepository;
 
@@ -21,14 +20,13 @@ public class ProductoRepository implements ProductRepository {
     private ProductMapper mapper;
 
     @Override
-    public List<Product> getAll(){
+    public List<Product> getAll() {
         List<Producto> productos = (List<Producto>) productoCrudRepository.findAll();
         return mapper.toProducts(productos);
     }
 
-    // query Method
     @Override
-    public Optional<List<Product>> getByCategory(int categoryId){
+    public Optional<List<Product>> getByCategory(int categoryId) {
         List<Producto> productos = productoCrudRepository.findByIdCategoriaOrderByNombreAsc(categoryId);
         return Optional.of(mapper.toProducts(productos));
     }
@@ -40,22 +38,20 @@ public class ProductoRepository implements ProductRepository {
     }
 
     @Override
+    public Optional<Product> getProduct(int productId) {
+        return productoCrudRepository.findById(productId).map(producto -> mapper.toProduct(producto));
+    }
+
+    @Override
     public Product save(Product product) {
         Producto producto = mapper.toProducto(product);
         return mapper.toProduct(productoCrudRepository.save(producto));
     }
-    @Override
-    public Optional<Product> getProduct(int productId){
-        return productoCrudRepository.findById(productId).map(producto -> mapper.toProduct(producto));
-    }
-
-    // query Method
-    public Optional<List<Producto>>getInsufficient(int cantidad){
-        return productoCrudRepository.findByCantidadStockLessThanAndEstado(cantidad,true);
-    }
 
     @Override
-    public void delete (int productId) {
+    public void delete(int productId) {
         productoCrudRepository.deleteById(productId);
     }
+
+
 }

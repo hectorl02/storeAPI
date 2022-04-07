@@ -1,7 +1,6 @@
 package com.hector.store.domain;
 
 public class Product {
-
     private int productId;
     private String name;
     private int categoryId;
@@ -9,7 +8,6 @@ public class Product {
     private int stock;
     private boolean active;
     private Category category;
-
 
     public int getProductId() {
         return productId;
